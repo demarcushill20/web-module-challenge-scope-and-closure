@@ -29,12 +29,18 @@ console.log('example task:', processFirstItem(['foo','bar'],function(str){return
   
   Study the code for counter1 and counter2, then answer the questions below.
   
-  1. What is the difference between counter1 and counter2?
+  1. What is the difference between counter1 and counter2? 
+
+  The main difference between counter1 and counter2 is that counter1 uses a closure, while counter2 does not. counter1 returns a function that has access to the count variable, which is defined in the outer function counterMaker, while counter2 simply references a global variable count.
   
   2. Which of the two uses a closure? How can you tell?
+
+  counter1 uses a closure because it returns a function that has access to the count variable, which is defined in the outer function counterMaker. This is evident from the fact that counterMaker returns the counter function, which references count. On the other hand, counter2 does not use a closure because it simply references the global variable count.
   
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+
+     counter1 code would be preferable in scenarios where you need to maintain state or count something and you want to avoid polluting the global namespace. Since count is defined within the closure of counterMaker, it is not accessible outside of the closure, which helps to prevent naming conflicts and accidental modification of the variable. On the other hand, counter2 code would be preferable in scenarios where you only need to keep track of a single count variable and you don't need to worry about naming conflicts or accidentally modifying the variable.
 */
 
 // counter1 code
@@ -64,8 +70,14 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning() {
+  // Generate a random number between 0 and 1, and then round it up to the nearest integer using Math.ceil
+  // This gives us a 50-50 chance of getting either 0 or 1
+  let randomNum = Math.ceil(Math.random() * 2) - 1;
+  
+  // If the random number is 0, return 0. Otherwise, return 1
+  // This gives us a 50-50 chance of returning either 0 or 1
+  return randomNum === 0 ? 0 : 1;
 }
 
 
@@ -83,10 +95,41 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*Code Here*/){
-  /*Code Here*/
+function finalScore(inning, numInnings) {
+  // Initialize variables to keep track of the home and away team scores
+  let homeScore = 0;
+  let awayScore = 0;
+  
+  // Loop through each inning
+  for (let i = 1; i <= numInnings; i++) {
+    // Call the callback function (inning) to get a random score for this inning
+    let inningScore = inning();
+    
+    // Add the inning score to the home or away team's score based on whether the inning is even or odd
+    if (i % 2 === 0) {
+      awayScore += inningScore;
+    } else {
+      homeScore += inningScore;
+    }
+  }
+  
+  // Return an object containing the final score of the home and away teams
+  return {
+    Home: homeScore,
+    Away: awayScore
+  };
 }
 
+/*
+function finalScore(inning, numInnings) {: This line declares the finalScore function with two parameters: a callback function inning and a number of innings numInnings.
+let homeScore = 0;: This line initializes a variable homeScore to 0 to keep track of the home team's score.
+let awayScore = 0;: This line initializes a variable awayScore to 0 to keep track of the away team's score.
+for (let i = 1; i <= numInnings; i++) {: This line starts a loop that iterates from 1 to the number of innings specified by numInnings.
+let inningScore = inning();: This line calls the callback function inning to get a random score for the current inning and assigns the result to the variable inningScore.
+if (i % 2 === 0) { awayScore += inningScore; } else { homeScore += inningScore; }: This line adds the inningScore to either the homeScore or awayScore variable based on whether the inning number is even or odd. If the inning number is even, the score is added to awayScore; otherwise, the score is added to homeScore.
+}: This line marks the end of the for loop.
+return { Home: homeScore, Away: awayScore };: This line returns an object containing the final score of the home and away teams, with Home and Away properties corresponding to the homeScore and awayScore variables.
+*/
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
@@ -101,9 +144,18 @@ For example: invoking getInningScore(inning) might return this object:
   */
 
 
-function getInningScore(/*Your Code Here */) {
-  /*Your Code Here */
+function getInningScore(inning) {
+  // Invoke the callback function (inning) to get a random score for the inning
+  let homeScore = inning();
+  
+  // Invoke the callback function (inning) again to get another random score for the inning
+  let awayScore = inning();
 
+  // Return an object containing the home and away scores
+  return {
+    Home: homeScore,
+    Away: awayScore
+  };
 }
 
 
